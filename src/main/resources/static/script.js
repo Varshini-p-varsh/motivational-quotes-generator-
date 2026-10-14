@@ -7,9 +7,9 @@ const quotes = [
     { text: "Your only limit is your mind.", author: "Unknown" },
     { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
     { text: "Success is the sum of small efforts repeated daily.", author: "Robert Collier" },
-    { text: "Do something today that your future self will thank you for.", author: "Unknown" },
+    { text: "Every day is a new beginning.", author: "Unknown" },
     { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-    { text: "Every day is a new beginning.", author: "Unknown" }
+    { text: "Small progress is still progress.", author: "Unknown" }
 ];
 
 const quoteElement = document.getElementById("quote");
@@ -37,24 +37,24 @@ function showRandomQuote() {
 newQuoteButton.addEventListener("click", showRandomQuote);
 
 copyQuoteButton.addEventListener("click", async function () {
-    const textToCopy = '"' + currentQuote.text + '" — ' + currentQuote.author;
+    const text = '"' + currentQuote.text + '" — ' + currentQuote.author;
 
     try {
-        await navigator.clipboard.writeText(textToCopy);
+        await navigator.clipboard.writeText(text);
         copyQuoteButton.textContent = "Copied! ✓";
 
         setTimeout(function () {
             copyQuoteButton.textContent = "Copy Quote 📋";
         }, 1500);
     } catch (error) {
-        alert("Unable to copy. Please copy the quote manually.");
+        alert("Copy is unavailable. You can select and copy the quote manually.");
     }
 });
 
 favoriteQuoteButton.addEventListener("click", function () {
-    const alreadyAdded = favorites.some(function (quote) {
-        return quote.text === currentQuote.text;
-    });
+    const alreadyAdded = favorites.some(
+        quote => quote.text === currentQuote.text
+    );
 
     if (alreadyAdded) {
         alert("This quote is already in your favorites!");
