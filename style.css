@@ -1,0 +1,142 @@
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #141e30, #4b2c82, #24243e);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+}
+
+.tagline {
+    color: #c4b5fd;
+    letter-spacing: 3px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: clamp(30px, 6vw, 48px);
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    color: #d1d5db;
+    margin-bottom: 35px;
+}
+
+.quote-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 22px;
+    padding: 35px 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.quote-mark {
+    font-size: 65px;
+    color: #c4b5fd;
+    height: 65px;
+}
+
+#quote {
+    font-size: 25px;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+
+#author {
+    color: #c4b5fd;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+button {
+    border: none;
+    padding: 13px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+#newQuote {
+    background: #a78bfa;
+    color: #171329;
+}
+
+#copyQuote {
+    background: white;
+    color: #24243e;
+}
+
+#favoriteQuote {
+    background: #f9a8d4;
+    color: #4a1235;
+}
+
+h2 {
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+#favorites {
+    list-style: none;
+    text-align: left;
+}
+
+#favorites li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+footer {
+    color: #d1d5db;
+    margin-top: 35px;
+    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+    .quote-card {
+        padding: 25px 15px;
+    }
+
+    #quote {
+        font-size: 21px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+```
