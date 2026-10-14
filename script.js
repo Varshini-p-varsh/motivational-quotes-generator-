@@ -1,0 +1,109 @@
+```javascript
+const quotes = [
+    {
+        text: "Believe you can and you're halfway there.",
+        author: "Theodore Roosevelt"
+    },
+    {
+        text: "Great things never come from comfort zones.",
+        author: "Unknown"
+    },
+    {
+        text: "Dream big and dare to fail.",
+        author: "Norman Vaughan"
+    },
+    {
+        text: "It always seems impossible until it's done.",
+        author: "Nelson Mandela"
+    },
+    {
+        text: "Success is the sum of small efforts repeated daily.",
+        author: "Robert Collier"
+    },
+    {
+        text: "Do something today that your future self will thank you for.",
+        author: "Sean Patrick Flanery"
+    },
+    {
+        text: "Believe in yourself and all that you are.",
+        author: "Christian D. Larson"
+    },
+    {
+        text: "Your only limit is your mind.",
+        author: "Unknown"
+    },
+    {
+        text: "Don't watch the clock; do what it does. Keep going.",
+        author: "Sam Levenson"
+    },
+    {
+        text: "The secret of getting ahead is getting started.",
+        author: "Mark Twain"
+    }
+];
+
+const quoteElement = document.getElementById("quote");
+const authorElement = document.getElementById("author");
+const newQuoteButton = document.getElementById("newQuote");
+const copyQuoteButton = document.getElementById("copyQuote");
+const favoriteQuoteButton = document.getElementById("favoriteQuote");
+const favoritesElement = document.getElementById("favorites");
+
+let currentQuote = quotes[0];
+let favorites = [];
+
+function showRandomQuote() {
+    let nextQuote;
+
+    do {
+        nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (quotes.length > 1 && nextQuote === currentQuote);
+
+    currentQuote = nextQuote;
+    quoteElement.textContent = currentQuote.text;
+    authorElement.textContent = "— " + currentQuote.author;
+}
+
+newQuoteButton.addEventListener("click", showRandomQuote);
+
+copyQuoteButton.addEventListener("click", async function () {
+    const textToCopy =
+        '"' + currentQuote.text + '" — ' + currentQuote.author;
+
+    try {
+        await navigator.clipboard.writeText(textToCopy);
+        copyQuoteButton.textContent = "Copied! ✓";
+        setTimeout(() => {
+            copyQuoteButton.textContent = "Copy Quote 📋";
+        }, 1500);
+    } catch (error) {
+        alert("Please open the website using HTTPS to copy quotes.");
+    }
+});
+
+favoriteQuoteButton.addEventListener("click", function () {
+    const alreadyAdded = favorites.some(
+        quote => quote.text === currentQuote.text
+    );
+
+    if (alreadyAdded) {
+        alert("This quote is already in your favorites!");
+        return;
+    }
+
+    favorites.push(currentQuote);
+    displayFavorites();
+});
+
+function displayFavorites() {
+    favoritesElement.innerHTML = "";
+
+    favorites.forEach(function (quote) {
+        const item = document.createElement("li");
+        item.textContent = '"' + quote.text + '" — ' + quote.author;
+        favoritesElement.appendChild(item);
+    });
+}
+
+showRandomQuote();
+```
