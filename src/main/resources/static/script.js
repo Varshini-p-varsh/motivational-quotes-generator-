@@ -1,46 +1,3 @@
-```javascript
-const quotes = [
-    {
-        text: "Believe you can and you're halfway there.",
-        author: "Theodore Roosevelt"
-    },
-    {
-        text: "Great things never come from comfort zones.",
-        author: "Unknown"
-    },
-    {
-        text: "Dream big and dare to fail.",
-        author: "Norman Vaughan"
-    },
-    {
-        text: "It always seems impossible until it's done.",
-        author: "Nelson Mandela"
-    },
-    {
-        text: "Success is the sum of small efforts repeated daily.",
-        author: "Robert Collier"
-    },
-    {
-        text: "Do something today that your future self will thank you for.",
-        author: "Sean Patrick Flanery"
-    },
-    {
-        text: "Believe in yourself and all that you are.",
-        author: "Christian D. Larson"
-    },
-    {
-        text: "Your only limit is your mind.",
-        author: "Unknown"
-    },
-    {
-        text: "Don't watch the clock; do what it does. Keep going.",
-        author: "Sam Levenson"
-    },
-    {
-        text: "The secret of getting ahead is getting started.",
-        author: "Mark Twain"
-    }
-];
 
 const quoteElement = document.getElementById("quote");
 const authorElement = document.getElementById("author");
@@ -49,19 +6,30 @@ const copyQuoteButton = document.getElementById("copyQuote");
 const favoriteQuoteButton = document.getElementById("favoriteQuote");
 const favoritesElement = document.getElementById("favorites");
 
-let currentQuote = quotes[0];
+let currentQuote = {
+    text: "Believe in yourself. Every small step matters.",
+    author: "Unknown"
+};
+
 let favorites = [];
 
-function showRandomQuote() {
-    let nextQuote;
+async function showRandomQuote() {
+    try {
+        const response = await fetch("/api/quotes/random");
 
-    do {
-        nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    } while (quotes.length > 1 && nextQuote === currentQuote);
+        if (!response.ok) {
+            throw new Error("API request failed");
+        }
 
-    currentQuote = nextQuote;
-    quoteElement.textContent = currentQuote.text;
-    authorElement.textContent = "— " + currentQuote.author;
+        currentQuote = await response.json();
+
+        quoteElement.textContent = currentQuote.text;
+        authorElement.textContent = "— " + currentQuote.author;
+    } catch (error) {
+        quoteElement.textContent =
+            "Unable to load quote. Please start the Java backend.";
+        authorElement.textContent = "— Motivational Quotes";
+    }
 }
 
 newQuoteButton.addEventListener("click", showRandomQuote);
@@ -73,18 +41,19 @@ copyQuoteButton.addEventListener("click", async function () {
     try {
         await navigator.clipboard.writeText(textToCopy);
         copyQuoteButton.textContent = "Copied! ✓";
-        setTimeout(() => {
+
+        setTimeout(function () {
             copyQuoteButton.textContent = "Copy Quote 📋";
         }, 1500);
     } catch (error) {
-        alert("Please open the website using HTTPS to copy quotes.");
+        alert("Copy failed. Please try using HTTPS.");
     }
 });
 
 favoriteQuoteButton.addEventListener("click", function () {
-    const alreadyAdded = favorites.some(
-        quote => quote.text === currentQuote.text
-    );
+    const alreadyAdded = favorites.some(function (quote) {
+        return quote.text === currentQuote.text;
+    });
 
     if (alreadyAdded) {
         alert("This quote is already in your favorites!");
@@ -106,4 +75,4 @@ function displayFavorites() {
 }
 
 showRandomQuote();
-```
+
