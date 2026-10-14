@@ -1,4 +1,17 @@
 
+const quotes = [
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "Great things never come from comfort zones.", author: "Unknown" },
+    { text: "Dream big and dare to fail.", author: "Norman Vaughan" },
+    { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+    { text: "Your only limit is your mind.", author: "Unknown" },
+    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+    { text: "Success is the sum of small efforts repeated daily.", author: "Robert Collier" },
+    { text: "Do something today that your future self will thank you for.", author: "Unknown" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Every day is a new beginning.", author: "Unknown" }
+];
+
 const quoteElement = document.getElementById("quote");
 const authorElement = document.getElementById("author");
 const newQuoteButton = document.getElementById("newQuote");
@@ -6,37 +19,25 @@ const copyQuoteButton = document.getElementById("copyQuote");
 const favoriteQuoteButton = document.getElementById("favoriteQuote");
 const favoritesElement = document.getElementById("favorites");
 
-let currentQuote = {
-    text: "Believe in yourself. Every small step matters.",
-    author: "Unknown"
-};
-
+let currentQuote = quotes[0];
 let favorites = [];
 
-async function showRandomQuote() {
-    try {
-        const response = await fetch("/api/quotes/random");
+function showRandomQuote() {
+    let nextQuote;
 
-        if (!response.ok) {
-            throw new Error("API request failed");
-        }
+    do {
+        nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (quotes.length > 1 && nextQuote === currentQuote);
 
-        currentQuote = await response.json();
-
-        quoteElement.textContent = currentQuote.text;
-        authorElement.textContent = "— " + currentQuote.author;
-    } catch (error) {
-        quoteElement.textContent =
-            "Unable to load quote. Please start the Java backend.";
-        authorElement.textContent = "— Motivational Quotes";
-    }
+    currentQuote = nextQuote;
+    quoteElement.textContent = currentQuote.text;
+    authorElement.textContent = "— " + currentQuote.author;
 }
 
 newQuoteButton.addEventListener("click", showRandomQuote);
 
 copyQuoteButton.addEventListener("click", async function () {
-    const textToCopy =
-        '"' + currentQuote.text + '" — ' + currentQuote.author;
+    const textToCopy = '"' + currentQuote.text + '" — ' + currentQuote.author;
 
     try {
         await navigator.clipboard.writeText(textToCopy);
@@ -46,7 +47,7 @@ copyQuoteButton.addEventListener("click", async function () {
             copyQuoteButton.textContent = "Copy Quote 📋";
         }, 1500);
     } catch (error) {
-        alert("Copy failed. Please try using HTTPS.");
+        alert("Unable to copy. Please copy the quote manually.");
     }
 });
 
